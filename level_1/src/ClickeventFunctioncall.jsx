@@ -17,9 +17,14 @@ const ClickeventFunctioncall = () => {
     {/* <button onCLick={()=>fruit("Strawberry")}>Strawberry</button><br/> */}
     <br/>
     <button onClick={()=>fruit("Banana")}>Banana</button>
-    <button onClick={()=>fruit("Mango")}>Mango</button>
+    <button onClick={()=>fruit("Mango")}>Mango</button><br/>
     <button onClick={()=>fruit("Orange")}>Orange</button>
     <button onClick={()=>fruit("Grapes")}>Grapes</button>
+    <br/>
+    <button onClick={()=>fruit("Pineapple")}>Pineapple</button>
+    <button onClick={()=>fruit("Watermelon")}>Watermelon</button><br/>
+    <button onClick={()=>fruit("Papaya")}>Papaya</button>
+    <button onClick={()=>fruit("Kiwi")}>Kiwi</button>
 
     </>
   )
