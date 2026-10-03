@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+// import {createElement} from 'react'
 
 // Default Export in a file we can import it with any name we want.
 function Increment() {
@@ -17,6 +18,9 @@ function Increment() {
     <button onClick={() =>setCount1(0)}>Reset</button>
    </>
   )
+
+// without JSX we can write the same code like this 
+//   return createElement("div",{id:"rootDiv"},"hello dov");
 }
 
 //Multipe exports in a single file this is a named export we write the name of the function in curly braces when we import it in another file.{Setting}
@@ -38,5 +42,7 @@ export function Login(){
         </>
     )
 }
+
+
 
 export default Increment
