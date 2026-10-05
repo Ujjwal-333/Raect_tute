@@ -1,122 +1,177 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useRef } from 'react'
+import LatestForwardRef from './LatestForwardRef'
+import PureFuncCompo from './PureFuncCompo'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const inputRef = useRef(null)
+
+  const updateInput = () => {
+    inputRef.current.value = 1000
+    inputRef.current.focus()
+    inputRef.current.style.color = "red"
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <h1>Forward Ref</h1>
 
-      <div className="ticks"></div>
+      <LatestForwardRef ref={inputRef} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <button onClick={updateInput}>
+        Update Input Field
+      </button>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      <PureFuncCompo guest={3}/>
     </>
   )
 }
 
 export default App
+
+
+
+
+
+/*
+========================================================
+           FORWARD REF - REACT 18 vs REACT 19
+========================================================
+
+🔹 FORWARD REF KA KAAM:
+forwardRef ka purpose parent component ke ref ko child
+component ke andar kisi DOM element (jaise input) tak
+pahunchana hai.
+
+Example flow:
+
+Parent
+  ↓
+inputRef
+  ↓
+Child Component
+  ↓
+<input ref={ref} />
+
+
+========================================================
+                 REACT 18
+========================================================
+
+React 18 mein ref ko normal props ki tarah directly
+receive nahi kar sakte the.
+
+Isliye forwardRef() use karna padta tha.
+
+Example:
+
+import { forwardRef } from "react";
+
+const Child = (props, ref) => {
+    return <input ref={ref} />;
+};
+
+export default forwardRef(Child);
+
+
+Yahan forwardRef() React ko batata hai ki:
+
+"Parent se jo ref aa raha hai, use child component ke
+second parameter mein bhejna hai."
+
+Isliye:
+
+const Child = (props, ref) => {
+                     ↑
+                parent ka ref
+
+
+========================================================
+                 REACT 19
+========================================================
+
+React 19 mein ref ko directly prop ki tarah receive
+kar sakte hain.
+
+Isliye forwardRef() import/use karne ki zarurat nahi hai.
+
+Example:
+
+const Child = ({ ref }) => {
+    return <input ref={ref} />;
+};
+
+export default Child;
+
+
+Yahan ref directly props se mil raha hai.
+
+Parent:
+
+const inputRef = useRef(null);
+
+<Child ref={inputRef} />;
+
+
+Child:
+
+const Child = ({ ref }) => {
+    return <input ref={ref} />;
+};
+
+
+========================================================
+             DONO MEIN MAIN DIFFERENCE
+========================================================
+
+React 18:
+    ref → forwardRef() → Child → DOM element
+
+React 19:
+    ref → normal prop → Child → DOM element
+
+
+React 18:
+    forwardRef() REQUIRED
+
+React 19:
+    forwardRef() NOT REQUIRED for this use case
+
+
+========================================================
+                 KYU USE KARTE HAIN?
+========================================================
+
+Ref ka use tab karte hain jab parent ko child ke kisi
+DOM element ko directly access/control karna ho.
+
+Jaise:
+
+inputRef.current.focus();
+→ input ko focus karna
+
+inputRef.current.value = 1000;
+→ input ki value change karna
+
+inputRef.current.style.color = "red";
+→ input ka style change karna
+
+
+IMPORTANT:
+Ref ka use normal data/state pass karne ke liye nahi hota.
+Normal data ke liye props aur state use karte hain.
+
+Ref mainly DOM ko directly access karne ke liye use hota hai.
+
+
+⭐ YAAD RAKHNE KA SIMPLE FORMULA:
+
+React 18:
+"Ref bhejna hai → forwardRef lagao"
+
+React 19:
+"Ref bhejna hai → direct prop ki tarah receive karo"
+
+
+========================================================
+*/
