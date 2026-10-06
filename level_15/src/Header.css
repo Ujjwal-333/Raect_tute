@@ -1,0 +1,48 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: bisque;
+    padding: 10px 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.header ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    gap: 6px;
+    align-items: center;
+}
+
+.header ul li {
+    padding: 10px;
+}
+
+.header .link h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.header .link {
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+}
+
+/* Home active */
+.header .link.home-active {
+    color: blue !important;
+    font-weight: bold;
+}
+
+/* Other active links */
+.header .link.active {
+    color: green !important;
+    font-weight: bold;
+}
