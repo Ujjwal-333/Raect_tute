@@ -1,0 +1,14 @@
+{
+    "posts":[
+        {"id":"1", "title":"A title","views":100},
+        {"id":"2", "title":"Another title","views":200}
+
+    ],
+    "comments":[
+         {"id":"1", "title":"a comment about post 1","postId":"1"},
+        {"id":"2", "title":"Another comment about post 1","postId":"1"}
+    ],
+    "profile":[
+        {"name":"Vivek","age":"22", "position":"Technical Head"}
+    ]
+}
